@@ -1,0 +1,23 @@
+# Maven
+target/
+
+# IDE
+.idea/
+*.iml
+.vscode/
+.classpath
+.project
+.settings/
+
+# OS
+.DS_Store
+
+# Secrets
+.env
+*.pem
+*.key
+
+# Local docs / problem statement
+docs/
+*.docx
+.~lock.*
