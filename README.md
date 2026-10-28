@@ -1,6 +1,6 @@
 # SPE Mini Project — Calculator
 
-A simple calculator service in plain Java, with a CI/CD pipeline (Jenkins, Docker, Docker Compose).
+A simple calculator REST API in plain Java (no framework), with a CI/CD pipeline (Jenkins, Docker, Docker Compose).
 
 ## Requirements
 
@@ -10,6 +10,39 @@ A simple calculator service in plain Java, with a CI/CD pipeline (Jenkins, Docke
 ## Build and test
 
 ```bash
-mvn clean package   # compile and build target/calculator.jar
+mvn clean package   # compile, test and build target/calculator.jar
 mvn test            # run JUnit tests (reports in target/surefire-reports)
 ```
+
+## Run
+
+```bash
+java -jar target/calculator.jar            # listens on port 8080
+PORT=9090 java -jar target/calculator.jar  # custom port
+```
+
+## API
+
+| Method | Endpoint | Description |
+|---|---|---|
+| GET | `/api/v1/add?a=&b=` | a + b |
+| GET | `/api/v1/subtract?a=&b=` | a - b |
+| GET | `/api/v1/multiply?a=&b=` | a * b |
+| GET | `/api/v1/divide?a=&b=` | a / b |
+| GET | `/actuator/health` | health check |
+
+Examples:
+
+```bash
+curl "localhost:8080/api/v1/add?a=2&b=3"
+# {"operation":"add","a":2,"b":3,"result":5}
+
+curl -i "localhost:8080/api/v1/divide?a=5&b=0"
+# HTTP/1.1 400 Bad Request
+# {"error":"Division by zero"}
+
+curl "localhost:8080/actuator/health"
+# {"status":"UP"}
+```
+
+Missing or non-numeric `a` / `b` return `400` with `{"error":"..."}`. Unknown paths return `404`, and non-GET requests return `405`.
