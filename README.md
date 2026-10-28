@@ -46,3 +46,26 @@ curl "localhost:8080/actuator/health"
 ```
 
 Missing or non-numeric `a` / `b` return `400` with `{"error":"..."}`. Unknown paths return `404`, and non-GET requests return `405`.
+
+## Docker
+
+Multi-stage build (Maven/JDK build stage, slim JRE runtime, non-root user):
+
+```bash
+docker build -t codetuscan/calculator .
+docker run -p 8080:8080 codetuscan/calculator
+curl "localhost:8080/api/v1/add?a=2&b=3"
+```
+
+## Docker Compose
+
+Starts the calculator (with a health check on `/actuator/health`) behind an Nginx reverse proxy:
+
+```bash
+docker compose up -d --build
+curl "localhost/api/v1/add?a=2&b=3"   # served through Nginx on port 80
+docker compose ps
+docker compose down
+```
+
+Use `HOST_PORT=8082 docker compose up -d` if port 80 is busy, and `TAG=<tag>` to pick an image tag.
