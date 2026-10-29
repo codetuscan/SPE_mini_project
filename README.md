@@ -82,3 +82,5 @@ The [Jenkinsfile](Jenkinsfile) runs on every push to GitHub (webhook, with Poll 
 6. Deploy: `docker compose up -d`, then waits for `/actuator/health`
 
 A build status email is sent on success or failure.
+
+Checking webhook
