@@ -5,7 +5,7 @@ pipeline {
         IMAGE = 'codetuscan/calculator'
         TAG = "${env.BUILD_NUMBER}"
         DOCKERHUB = credentials('dockerhub-creds')
-        NOTIFY_EMAIL = 'sunhith.reddy@iiitb.ac.in'
+        NOTIFY_EMAIL = 'sunhith.munna@gmail.com'
     }
 
     triggers {
