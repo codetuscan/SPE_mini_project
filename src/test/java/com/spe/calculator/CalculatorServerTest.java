@@ -47,44 +47,44 @@ class CalculatorServerTest {
     void add() throws Exception {
         HttpResponse<String> response = get("/api/v1/add?a=2&b=3");
         assertEquals(200, response.statusCode());
-        assertEquals("{\"operation\":\"add\",\"a\":2,\"b\":3,\"result\":5}", response.body());
+        assertEquals("{\"operation\":\"add\",\"a\":2,\"b\":3,\"result\":5}", response.body().strip());
         assertTrue(response.headers().firstValue("Content-Type").orElse("").contains("application/json"));
     }
 
     @Test
     void subtract() throws Exception {
-        assertEquals("{\"operation\":\"subtract\",\"a\":2,\"b\":3,\"result\":-1}", get("/api/v1/subtract?a=2&b=3").body());
+        assertEquals("{\"operation\":\"subtract\",\"a\":2,\"b\":3,\"result\":-1}", get("/api/v1/subtract?a=2&b=3").body().strip());
     }
 
     @Test
     void multiply() throws Exception {
-        assertEquals("{\"operation\":\"multiply\",\"a\":2.5,\"b\":4,\"result\":10}", get("/api/v1/multiply?a=2.5&b=4").body());
+        assertEquals("{\"operation\":\"multiply\",\"a\":2.5,\"b\":4,\"result\":10}", get("/api/v1/multiply?a=2.5&b=4").body().strip());
     }
 
     @Test
     void divide() throws Exception {
-        assertEquals("{\"operation\":\"divide\",\"a\":5,\"b\":2,\"result\":2.5}", get("/api/v1/divide?a=5&b=2").body());
+        assertEquals("{\"operation\":\"divide\",\"a\":5,\"b\":2,\"result\":2.5}", get("/api/v1/divide?a=5&b=2").body().strip());
     }
 
     @Test
     void divideByZero() throws Exception {
         HttpResponse<String> response = get("/api/v1/divide?a=5&b=0");
         assertEquals(400, response.statusCode());
-        assertEquals("{\"error\":\"Division by zero\"}", response.body());
+        assertEquals("{\"error\":\"Division by zero\"}", response.body().strip());
     }
 
     @Test
     void missingParameter() throws Exception {
         HttpResponse<String> response = get("/api/v1/add?a=2");
         assertEquals(400, response.statusCode());
-        assertEquals("{\"error\":\"Missing parameter: b\"}", response.body());
+        assertEquals("{\"error\":\"Missing parameter: b\"}", response.body().strip());
     }
 
     @Test
     void invalidParameter() throws Exception {
         HttpResponse<String> response = get("/api/v1/add?a=abc&b=3");
         assertEquals(400, response.statusCode());
-        assertEquals("{\"error\":\"Invalid number for parameter a\"}", response.body());
+        assertEquals("{\"error\":\"Invalid number for parameter a\"}", response.body().strip());
     }
 
     @Test
@@ -97,7 +97,7 @@ class CalculatorServerTest {
     void health() throws Exception {
         HttpResponse<String> response = get("/actuator/health");
         assertEquals(200, response.statusCode());
-        assertEquals("{\"status\":\"UP\"}", response.body());
+        assertEquals("{\"status\":\"UP\"}", response.body().strip());
     }
 
     @Test
